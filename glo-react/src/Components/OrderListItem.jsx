@@ -31,12 +31,12 @@ const ItemPrice = styled.span`
     text-align: right;
 `;
 
-export const OrderListItem = () => {
+export const OrderListItem = ({ order }) => {
     return (
         <OrderItemStyled>
-            <ItemName>JS Burger</ItemName>
+            <ItemName>{order.name}</ItemName>
             <span>2</span>
-            <ItemPrice>750 руб</ItemPrice>
+            <ItemPrice>{order.price} р.</ItemPrice>
             <TrashButton/>
         </OrderItemStyled>
     )
