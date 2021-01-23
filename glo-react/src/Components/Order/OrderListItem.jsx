@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import trashImage from '../img/trash.svg'
+import trashImage from '../../img/trash.svg';
+import { totalPriceItem } from '../Modal/ModalItem';
 
 const TrashButton = styled.button`
     width: 24px;
@@ -35,8 +36,8 @@ export const OrderListItem = ({ order }) => {
     return (
         <OrderItemStyled>
             <ItemName>{order.name}</ItemName>
-            <span>2</span>
-            <ItemPrice>{order.price} р.</ItemPrice>
+            <span>{order.count}</span>
+            <ItemPrice>{totalPriceItem(order)} р.</ItemPrice>
             <TrashButton/>
         </OrderItemStyled>
     )

@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import dbMenu from './DBMenu';
+import dbMenu from '../DBMenu';
 import { ListItem } from './ListItems'
-import {Banner} from './Banner'
+import { Banner } from './Banner'
 
 const MenuStyled = styled.main`
     background-color: #ccc;
