@@ -3,6 +3,12 @@ import styled from 'styled-components';
 import { ButtonCheckout } from '../Styled/ButtonCheckout';
 import { CountItem } from './CountItem';
 import { useCount } from '../Hooks/useCount';
+import { totalPriceItem } from '../Functions/secondaryFunction';
+import { formatCerruncy } from '../Functions/secondaryFunction';
+import { Toppings } from './Toppings';
+import { useTopping } from '../Hooks/useTopping';
+
+
 
 
 const Overlay = styled.div`
@@ -57,11 +63,14 @@ const TotalPriceItem = styled.div`
     justify-content: space-between;
 `;
 
-export const totalPriceItem = order => order.price * order.count;
+
 
 export const ModalItem =({openItem, setOpenItem, orders, setOrders}) => {
+    
 
     const counter = useCount();
+
+    const toppings = useTopping(openItem);
 
     function closeModal(e) {
         if(e.target.id === 'overlay'){
@@ -71,7 +80,8 @@ export const ModalItem =({openItem, setOpenItem, orders, setOrders}) => {
 
     const order = {
         ...openItem,
-        count: counter.count
+        count: counter.count,
+        topping: toppings.toppings
     }
 
     
@@ -89,14 +99,16 @@ export const ModalItem =({openItem, setOpenItem, orders, setOrders}) => {
                 <Content>
                     <HeaderContent>
                         <div>{openItem.name}</div>
-                        <div>{openItem.price}</div>
+                        <div>{formatCerruncy(openItem.price)}</div>
                     </HeaderContent>
                     <CountItem {...counter} />
+                    { openItem.toppings && <Toppings {...toppings} />}
+                    
                     <TotalPriceItem>
                         <span>Цена:</span>
-                        <span>{totalPriceItem(order).toLocaleString('ru-RU', 
-                            {style: 'currency', currency: 'RUB'})}</span>
+                        <span>{formatCerruncy(totalPriceItem(order))}</span>
                     </TotalPriceItem>
+                    
                     <ButtonCheckout onClick={addToOrder}>Добавить</ButtonCheckout>
                 </Content>
             </Modal>

@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import trashImage from '../../img/trash.svg';
-import { totalPriceItem } from '../Modal/ModalItem';
+import { totalPriceItem } from '../Functions/secondaryFunction';
+import { formatCerruncy } from '../Functions/secondaryFunction';
+
 
 const TrashButton = styled.button`
     width: 24px;
@@ -37,7 +39,7 @@ export const OrderListItem = ({ order }) => {
         <OrderItemStyled>
             <ItemName>{order.name}</ItemName>
             <span>{order.count}</span>
-            <ItemPrice>{totalPriceItem(order)} р.</ItemPrice>
+            <ItemPrice>{formatCerruncy(totalPriceItem(order))}</ItemPrice>
             <TrashButton/>
         </OrderItemStyled>
     )

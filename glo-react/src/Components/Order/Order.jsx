@@ -2,7 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { ButtonCheckout } from '../Styled/ButtonCheckout';
 import { OrderListItem } from './OrderListItem';
-import { totalPriceItem } from '../Modal/ModalItem';
+import { totalPriceItem } from '../Functions/secondaryFunction';
+import { formatCerruncy } from '../Functions/secondaryFunction';
+
 
 
 const OrderStyled = styled.section`
@@ -54,6 +56,8 @@ export const Order = ({ orders }) => {
     const total = orders.reduce((result, order) => 
         totalPriceItem(order) + result, 0)
 
+        const totalCounter = orders.reduce((result, order) => 
+            order.count + result, 0)
 
     return (
         <OrderStyled>
@@ -66,8 +70,8 @@ export const Order = ({ orders }) => {
             </OrderContent>
             <Total>
                 <span>Итого</span>
-                <span>5</span>
-                <TotalPrice>{total} руб</TotalPrice>
+                <span>{totalCounter}</span>
+                <TotalPrice>{formatCerruncy(total)}</TotalPrice>
             </Total>
             <ButtonCheckout>Оформить</ButtonCheckout>
         </OrderStyled>
