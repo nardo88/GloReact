@@ -7,6 +7,9 @@ import { totalPriceItem } from '../Functions/secondaryFunction';
 import { formatCerruncy } from '../Functions/secondaryFunction';
 import { Toppings } from './Toppings';
 import { useTopping } from '../Hooks/useTopping';
+import { useChoises } from '../Hooks/useChoises';
+import { Choises } from './Choises';
+
 
 
 
@@ -69,19 +72,19 @@ export const ModalItem =({openItem, setOpenItem, orders, setOrders}) => {
     
 
     const counter = useCount();
-
     const toppings = useTopping(openItem);
+    const choices = useChoises(openItem)
 
     function closeModal(e) {
         if(e.target.id === 'overlay'){
             setOpenItem(null);
         }
     }
-
     const order = {
         ...openItem,
         count: counter.count,
-        topping: toppings.toppings
+        topping: toppings.toppings,
+        choice: choices.choice
     }
 
     
@@ -103,13 +106,13 @@ export const ModalItem =({openItem, setOpenItem, orders, setOrders}) => {
                     </HeaderContent>
                     <CountItem {...counter} />
                     { openItem.toppings && <Toppings {...toppings} />}
-                    
+                    { openItem.choices && <Choises {...choices} openItem={openItem} /> }
                     <TotalPriceItem>
                         <span>Цена:</span>
                         <span>{formatCerruncy(totalPriceItem(order))}</span>
                     </TotalPriceItem>
                     
-                    <ButtonCheckout onClick={addToOrder}>Добавить</ButtonCheckout>
+                    <ButtonCheckout disabled={order.choices && !order.choice} onClick={addToOrder}>Добавить</ButtonCheckout>
                 </Content>
             </Modal>
         </Overlay>
