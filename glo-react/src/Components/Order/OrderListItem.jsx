@@ -21,6 +21,7 @@ const OrderItemStyled = styled.li`
     display: flex;
     margin: 15px 0;
     flex-wrap: wrap;
+    cursor: pointer;
 `;
 
 const ItemName = styled.span`
@@ -49,11 +50,11 @@ export const OrderListItem = ({ order, index, deletItem, setOpenItem }) => {
         .join(', ');
 
     return (
-        <OrderItemStyled onClick={() => setOpenItem({...order, index})}>
+        <OrderItemStyled onClick={(e) => !e.target.classList.contains('delete') && setOpenItem({...order, index})}>
             <ItemName>{order.name} {order.choice}</ItemName>
             <span>{order.count}</span>
             <ItemPrice>{formatCerruncy(totalPriceItem(order))}</ItemPrice>
-            <TrashButton onClick={() => deletItem(index)}/>
+            <TrashButton className='delete' onClick={() => deletItem(index)}/>
             {topping && <Toppings>Допы: {topping}</Toppings>}
         </OrderItemStyled>
     )

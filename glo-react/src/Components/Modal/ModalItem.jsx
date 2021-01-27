@@ -71,7 +71,7 @@ const TotalPriceItem = styled.div`
 export const ModalItem =({openItem, setOpenItem, orders, setOrders}) => {
     
 
-    const counter = useCount();
+    const counter = useCount(openItem.count);
     const toppings = useTopping(openItem);
     const choices = useChoises(openItem);
     const isEdit = openItem.index > -1;
@@ -90,10 +90,9 @@ export const ModalItem =({openItem, setOpenItem, orders, setOrders}) => {
 
     const editOrder = () => {
         const newOrders = [...orders];
-
         newOrders[openItem.index] = order;
-
         setOrders(newOrders);
+        setOpenItem(null);
     }
     
 
@@ -120,7 +119,7 @@ export const ModalItem =({openItem, setOpenItem, orders, setOrders}) => {
                         <span>{formatCerruncy(totalPriceItem(order))}</span>
                     </TotalPriceItem>
                     
-                    <ButtonCheckout disabled={order.choices && !order.choice} onClick={isEdit ? editOrder : addToOrder}>Добавить</ButtonCheckout>
+                    <ButtonCheckout disabled={order.choices && !order.choice} onClick={isEdit ? editOrder : addToOrder}>{isEdit ? 'Редактировать' : 'Добавить'}</ButtonCheckout>
                 </Content>
             </Modal>
         </Overlay>
