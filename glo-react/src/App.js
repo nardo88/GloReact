@@ -19,6 +19,7 @@ const firebaseConfig = {
   appId: "1:666447423815:web:ccf11dd5a6100ef65a8462"
 };
 
+
 firebase.initializeApp(firebaseConfig);
 
 
@@ -26,6 +27,8 @@ firebase.initializeApp(firebaseConfig);
 function App() {
 
   const auth = useAuth(firebase.auth);
+
+  
   const openItem = useOpenItem();
   const orders = useOrder();
 
