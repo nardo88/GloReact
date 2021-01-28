@@ -60,16 +60,22 @@ const EmptyList = styled.p`
 `;
 
 export const Order = ({ orders, setOrders, setOpenItem, authentication, login, firebaseDataBase }) => {
-
+    //создаем объект БД
     const dataBase = firebaseDataBase();
-    console.log(dataBase);
+    // функция которая будет выполняться при нажатии на кнопку, т.е. нажали и данные улетели в БД
     const sendOrder = () => {
-       const newOrder = orders.map(projection(rulesData));
-       dataBase.ref('orders/').push().set({
-           nameClient: authentication.displayName,
-           email:authentication.email,
-           order: newOrder
-       })
+        // создали объект который будем отправлять в БД
+        const newOrder = orders.map(projection(rulesData));
+        // обращаемся к объекту БД 
+        // метод ref - определяет в какой участок JSON файла будут помещены данные. у нас это ключ order
+        // метод push генерирует уникальный ключ для свойства добавляемого объекта
+        // set непосредственно грузит в бд то что ему передали в качестве аргумента
+        dataBase.ref('orders/').push().set({
+            // объект который мы пушим в JSON БД
+            nameClient: authentication.displayName,
+            email:authentication.email,
+            order: newOrder
+        })
     }
     const total = orders.reduce((result, order) => 
         totalPriceItem(order) + result, 0)
