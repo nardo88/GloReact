@@ -1,6 +1,7 @@
 import React from 'react';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/database';
 import { NavBar } from './Components/NavBar/NavBar';
 import { Menu } from './Components/Menu/Menu';
 import { GlobalStyle } from './Components/Styled/globalStyle';
@@ -13,6 +14,7 @@ import { useAuth } from './Components/Hooks/useAuth';
 const firebaseConfig = {
   apiKey: "AIzaSyBEGnE4ShfI_XrSLHLrqgUE82Y0BNDfzL4",
   authDomain: "gloreact.firebaseapp.com",
+  databaseURL: "https://gloreact-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "gloreact",
   storageBucket: "gloreact.appspot.com",
   messagingSenderId: "666447423815",
@@ -36,7 +38,7 @@ function App() {
     <div> 
       <GlobalStyle/>
       <NavBar {...auth} />
-      <Order {...orders} {...openItem} />
+      <Order {...orders} {...openItem} {...auth} firebaseDataBase={firebase.database}/>
       <Menu {...openItem} />
       {
         openItem.openItem &&  <ModalItem {...openItem} {...orders} />

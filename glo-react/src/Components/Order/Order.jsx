@@ -4,8 +4,16 @@ import { ButtonCheckout } from '../Styled/ButtonCheckout';
 import { OrderListItem } from './OrderListItem';
 import { totalPriceItem } from '../Functions/secondaryFunction';
 import { formatCerruncy } from '../Functions/secondaryFunction';
+import { projection } from '../Functions/secondaryFunction';
 
-
+const rulesData = {
+    name: ['name'],
+    price: ['price'],
+    count: ['count'],
+    toppings: ['topping', arr => arr.filter(obj => obj.checked).map(obj => obj.name),
+        arr => arr.length ? arr : 'no topping'],
+    choices: ['choice', item => item ? item : 'no choices']
+}
 
 const OrderStyled = styled.section`
     position: fixed;
@@ -51,8 +59,18 @@ const EmptyList = styled.p`
     text-align: center;
 `;
 
-export const Order = ({ orders, setOrders, setOpenItem }) => {
+export const Order = ({ orders, setOrders, setOpenItem, authentication, login, firebaseDataBase }) => {
 
+    const dataBase = firebaseDataBase();
+    console.log(dataBase);
+    const sendOrder = () => {
+       const newOrder = orders.map(projection(rulesData));
+       dataBase.ref('orders/').push().set({
+           nameClient: authentication.displayName,
+           email:authentication.email,
+           order: newOrder
+       })
+    }
     const total = orders.reduce((result, order) => 
         totalPriceItem(order) + result, 0)
 
@@ -80,7 +98,13 @@ export const Order = ({ orders, setOrders, setOpenItem }) => {
                 <span>{totalCounter}</span>
                 <TotalPrice>{formatCerruncy(total)}</TotalPrice>
             </Total>
-            <ButtonCheckout>Оформить</ButtonCheckout>
+            <ButtonCheckout onClick={() => {
+                if (authentication){
+                    sendOrder();
+                } else {
+                    login();
+                }
+            }}>Оформить</ButtonCheckout>
         </OrderStyled>
     )
 }
