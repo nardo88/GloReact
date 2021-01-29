@@ -31,7 +31,7 @@ export function useAuth(authFaerbase) {
             }
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authentication])
+    }, [auth, authentication])
 
     return { authentication, login, logOut };
 }

@@ -107,6 +107,8 @@ export const Order = ({ orders, setOrders, setOpenItem, authentication, login, f
             <ButtonCheckout onClick={() => {
                 if (authentication){
                     sendOrder();
+                    setOrders([])
+
                 } else {
                     login();
                 }
