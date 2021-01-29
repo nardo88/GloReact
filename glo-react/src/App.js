@@ -11,6 +11,7 @@ import { useOpenItem } from './Components/Hooks/useOpenItem';
 import { useOrder } from './Components/Hooks/useOrders';
 import { useAuth } from './Components/Hooks/useAuth';
 import { useTitle } from './Components/Hooks/useTitle';
+import { useDb } from './Components/Hooks/useDb';
 
 
 const firebaseConfig = {
@@ -29,20 +30,18 @@ firebase.initializeApp(firebaseConfig);
 
 
 function App() {
-
   const auth = useAuth(firebase.auth);
-
-  
   const openItem = useOpenItem();
   const orders = useOrder();
-  useTitle(openItem.openItem)
-
+  const dataBase = firebase.database();
+  useTitle(openItem.openItem);
+  const dbMenu = useDb(dataBase);
   return (
     <div> 
       <GlobalStyle/>
       <NavBar {...auth} />
-      <Order {...orders} {...openItem} {...auth} firebaseDataBase={firebase.database}/>
-      <Menu {...openItem} />
+      <Order {...orders} {...openItem} {...auth} dataBase={dataBase}/>
+      <Menu {...openItem} dbMenu={dbMenu} />
       {
         openItem.openItem &&  <ModalItem {...openItem} {...orders} />
       }

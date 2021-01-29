@@ -59,9 +59,8 @@ const EmptyList = styled.p`
     text-align: center;
 `;
 
-export const Order = ({ orders, setOrders, setOpenItem, authentication, login, firebaseDataBase }) => {
-    //создаем объект БД
-    const dataBase = firebaseDataBase();
+export const Order = ({ orders, setOrders, setOpenItem, authentication, login, dataBase }) => {
+   
     // функция которая будет выполняться при нажатии на кнопку, т.е. нажали и данные улетели в БД
     const sendOrder = () => {
         // создали объект который будем отправлять в БД
