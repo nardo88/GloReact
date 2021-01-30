@@ -14,7 +14,7 @@ import { Choises } from './Choises';
 
 
 
-const Overlay = styled.div`
+export const Overlay = styled.div`
     position: fixed;
     top: 0;
     left: 0;

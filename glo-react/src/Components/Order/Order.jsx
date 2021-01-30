@@ -4,16 +4,8 @@ import { ButtonCheckout } from '../Styled/ButtonCheckout';
 import { OrderListItem } from './OrderListItem';
 import { totalPriceItem } from '../Functions/secondaryFunction';
 import { formatCerruncy } from '../Functions/secondaryFunction';
-import { projection } from '../Functions/secondaryFunction';
 
-const rulesData = {
-    name: ['name'],
-    price: ['price'],
-    count: ['count'],
-    toppings: ['topping', arr => arr.filter(obj => obj.checked).map(obj => obj.name),
-        arr => arr.length ? arr : 'no topping'],
-    choices: ['choice', item => item ? item : 'no choices']
-}
+
 
 const OrderStyled = styled.section`
     position: fixed;
@@ -29,7 +21,7 @@ const OrderStyled = styled.section`
 
 `;
 
-const OrderTitle = styled.h2`
+export const OrderTitle = styled.h2`
     text-align: center;
     margin-bottom: 30px;
 `;
@@ -41,7 +33,7 @@ const OrderContent = styled.div`
 const OrderList = styled.ul``;
 
 
-const Total = styled.div`
+export const Total = styled.div`
     display: flex;
     margin: 0 35px 30px;
     & span:first-child {
@@ -49,7 +41,7 @@ const Total = styled.div`
     }
 `;
 
-const TotalPrice = styled.span`
+export const TotalPrice = styled.span`
     text-align: right;
     min-width: 65px;
     margin-left: 20px;
@@ -59,24 +51,17 @@ const EmptyList = styled.p`
     text-align: center;
 `;
 
-export const Order = ({ orders, setOrders, setOpenItem, authentication, login, firebaseDataBase }) => {
-    //создаем объект БД
-    const dataBase = firebaseDataBase();
+export const Order = ({ 
+    orders,
+    setOrders,
+    setOpenItem,
+    authentication,
+    login,
+    setOpenOrderConfirm
+     }) => {
+    
     // функция которая будет выполняться при нажатии на кнопку, т.е. нажали и данные улетели в БД
-    const sendOrder = () => {
-        // создали объект который будем отправлять в БД
-        const newOrder = orders.map(projection(rulesData));
-        // обращаемся к объекту БД 
-        // метод ref - определяет в какой участок JSON файла будут помещены данные. у нас это ключ order
-        // метод push генерирует уникальный ключ для свойства добавляемого объекта
-        // set непосредственно грузит в бд то что ему передали в качестве аргумента
-        dataBase.ref('orders/').push().set({
-            // объект который мы пушим в JSON БД
-            nameClient: authentication.displayName,
-            email:authentication.email,
-            order: newOrder
-        })
-    }
+   
     const total = orders.reduce((result, order) => 
         totalPriceItem(order) + result, 0)
 
@@ -106,8 +91,7 @@ export const Order = ({ orders, setOrders, setOpenItem, authentication, login, f
             </Total>
             <ButtonCheckout onClick={() => {
                 if (authentication){
-                    sendOrder();
-                    setOrders([])
+                    setOpenOrderConfirm(true);
 
                 } else {
                     login();
